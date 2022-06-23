@@ -1,0 +1,9 @@
+samplePanel|TestCt|TestCt|Instance,onToggleObj,OnDestroy
+createOne|TestCfg|''
+prefix|测试|chentao
+prefix_line|--测试1
+ForwardDeclare|''|ECGame
+newFinal
+methods|onClickObj|userdata|''|sender|--test--ok|''|''
+virtual|TestFun1|userdata|''|sender|--test--ok|''|''
+commit|G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua\\TestCfg.lua
