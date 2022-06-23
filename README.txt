@@ -33,3 +33,4 @@ virtual|name|params|returns|param_names|function_body|upvalues_name|upvalues_val
 InstanceStatic
 newStatic
 newFinal
+1111
