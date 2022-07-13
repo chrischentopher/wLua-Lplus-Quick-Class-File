@@ -363,7 +363,7 @@ do
     ---@return LplusFactory.LplusFactory
     def.method("=>", LplusFactory).InstanceStatic = function(self)
         local m_data = self.m_data
-        self:static("Instance", "", m_data.className, "", ("instance = %s()\n\t\treturn instance"):format(m_data.className), "instance", "")
+        self:static("Instance", "", m_data.className, "", ("if not instance then\n\t\t\tinstance = %s()\n\t\t\treturn instance\n\t\tend"):format(m_data.className), "instance", "")
         return self
     end
 
