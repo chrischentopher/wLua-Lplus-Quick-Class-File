@@ -1,4 +1,4 @@
-1.改LplusFactoryInit.lua的LUA_PATH,LF_LUA_PATH,LF_AUTHOR_NAME,LF_FILE_PATH
+1.改LplusFactoryInit.lua的LF_LUA_PATH,LF_AUTHOR_NAME,LF_FILE_PATH
 2.修改改LplusFactoryIsOuter 确定文件夹位置
 3.参考LplusFactory.lua尾部的代码，调用
 
