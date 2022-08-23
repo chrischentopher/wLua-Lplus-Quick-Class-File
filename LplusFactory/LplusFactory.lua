@@ -84,14 +84,14 @@ do
         local m_data = self.m_data
         if file then
             --prefix
-            for i, v in ipairs(m_data.prefixes) do
+            for _, v in ipairs(m_data.prefixes) do
                 file:write(v)
             end
-            for i, v in ipairs(m_data.requires) do
+            for _, v in ipairs(m_data.requires) do
                 file:write(v)
             end
 
-            for i, v in ipairs(m_data.befores) do
+            for _, v in ipairs(m_data.befores) do
                 file:write(v)
             end
 
@@ -104,30 +104,44 @@ do
                 file:write("do\n\t")
                 file:write(("local def = %s.define\n"):format(m_data.className))
 
-                for i, v in ipairs(m_data.fields) do
+                for _, v in ipairs(m_data.fields) do
                     file:write(v)
                 end
-                for i, v in ipairs(m_data.finals) do
+                for _, v in ipairs(m_data.finals) do
                     file:write(v)
                 end
-                for i, v in ipairs(m_data.constructors) do
+                for _, v in ipairs(m_data.constructors) do
                     file:write(v)
                 end
-                for i, v in ipairs(m_data.statics) do
+                for _, v in ipairs(m_data.statics) do
                     file:write(v)
                 end
-                for i, v in ipairs(m_data.overrides) do
+                for _, v in ipairs(m_data.overrides) do
                     file:write(v)
                 end
-                for i, v in ipairs(m_data.virtuals) do
+                for _, v in ipairs(m_data.virtuals) do
                     file:write(v)
                 end
-                for i, v in ipairs(m_data.methods) do
+                for _, v in ipairs(m_data.methods) do
                     file:write(v)
                 end
-
+                for _, v in ipairs(m_data.lines_in_def) do
+                    file:write(v)
+                end
+                local commit_kind = m_data.commit_kind
+                if commit_kind == 'before' then
+                    file:write(("\t%s.Commit()\n"):format(m_data.className))
+                end
                 file:write("end\n")
-                file:write(("return %s.Commit()"):format(m_data.className))
+                for _, v in ipairs(m_data.lines_after_def) do
+                    file:write(v)
+                end
+                if commit_kind == 'return' then
+                    file:write(("return %s.Commit()"):format(m_data.className))
+                end
+            end
+            for _, v in ipairs(m_data.afters) do
+                file:write(v)
             end
             file:close()
         end
@@ -517,8 +531,10 @@ do
     def.method('string', 'string').sampleBadge = function(self, name, notification_name)
         local className = 'N'..name.."Badge"
         local class = self:createOne(className, "INotification")
+        class.m_data.commit_kind = 'before'
         class:prefix("小红点", AUTHOR_NAME)
         class:require("Notification", "INotification")
+        class:require("Notification", "FENotificationMan")
         local strs
         strs = {
             "--返回小红点名，在notification.lua中配置使用",
@@ -540,7 +556,8 @@ do
             "--self:SetNotificationStateEx",
         }
         class:override("OnRefreshHdl", "", "", "", make_function_body(strs), "", "")
-
+        local line = ("if Lplus.fresh() then\n\tFENotificationMan.Get():Register(%s())\nend"):format(className)
+        table.insert( class.m_data.lines_after_def, line)
         local pathName = (LUA_PATH.."\\Notification\\notifications\\%s.lua"):format(className)
         class:commit(pathName)
     end
