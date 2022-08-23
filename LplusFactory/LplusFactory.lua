@@ -2,7 +2,7 @@
 	自动生成lpus类
 ]]
 local LUA_PATH = _G.LF_LUA_PATH or 'G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua'
-local CT_FILE_PATH = _G.LF_FILE_PATH or 'G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua\\LplusFactory'
+local LF_FILE_PATH = _G.LF_FILE_PATH or 'G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua\\LplusFactory'
 local AUTHOR_NAME = _G.LF_AUTHOR_NAME or 'chentao'
 local Lplus = require "Lplus"
 local LplusFactoryData = _G.LplusFactoryData or require "LplusFactory.LplusFactoryData" --外部版去掉此句
@@ -80,7 +80,7 @@ do
     ---@return LplusFactory.LplusFactory
     def.method('string',"=>", LplusFactory).commit = function(self, filename)
         local file, err = io.open(filename,"w")
-        print(file, 'file----------------------------------')
+        print(file, filename, 'file----------------------------------')
         local m_data = self.m_data
         if file then
             --prefix
@@ -557,7 +557,7 @@ do
         }
         class:override("OnRefreshHdl", "", "", "", make_function_body(strs), "", "")
         local line = ("if Lplus.fresh() then\n\tFENotificationMan.Get():Register(%s())\nend"):format(className)
-        table.insert( class.m_data.lines_after_def, line)
+        table.insert(class.m_data.lines_after_def, line)
         local pathName = (LUA_PATH.."\\Notification\\notifications\\%s.lua"):format(className)
         class:commit(pathName)
     end
@@ -645,7 +645,7 @@ do
             {"commit", "G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua\\testCfg1.lua"},
         }
         LplusFactory:sampleConfig(cfg)
-        LplusFactory:sampleFile(CT_FILE_PATH..'\\testCfg1.ct')
+        LplusFactory:sampleFile(LF_FILE_PATH..'\\testCfg1.ct')
     end
 
 end
