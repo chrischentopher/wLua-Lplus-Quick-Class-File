@@ -7,7 +7,7 @@ if not _G.LplusFactoryData then
 		_G.LplusFactoryData = dofile"More/LplusFactory/LplusFactoryData.lua"
 		_G.LplusFactory = dofile"More/LplusFactory/LplusFactory.lua".Instance()
 	else
-		_G.LF_FILE_PATH = _G.LUA_PATH..'\\LplusFactory'
+		_G.LF_FILE_PATH = _G.LF_LUA_PATH..'\\LplusFactory'
 		_G.LplusFactoryData = require "LplusFactory.LplusFactoryData"
 		_G.LplusFactory = require "LplusFactory.LplusFactory".Instance()
 	end
