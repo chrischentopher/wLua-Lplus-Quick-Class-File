@@ -1,9 +1,9 @@
 --[[
 	自动生成lpus类
 ]]
-local LUA_PATH = _G.LUA_PATH or 'G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua'
-local CT_FILE_PATH = _G.CT_FILE_PATH or 'G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua\\LplusFactory'
-local AUTHOR_NAME = 'chentao'
+local LUA_PATH = _G.LF_LUA_PATH or 'G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua'
+local CT_FILE_PATH = _G.LF_FILE_PATH or 'G:\\svn\\phecda_client\\trunk\\Azure\\Output\\Lua\\LplusFactory'
+local AUTHOR_NAME = _G.LF_AUTHOR_NAME or 'chentao'
 local Lplus = require "Lplus"
 local LplusFactoryData = _G.LplusFactoryData or require "LplusFactory.LplusFactoryData" --外部版去掉此句
 
