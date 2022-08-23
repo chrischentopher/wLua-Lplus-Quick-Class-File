@@ -20,6 +20,10 @@ local Lplus = require "Lplus"
 ---@field public overrides table
 ---@field public virtuals table
 ---@field public methods table
+---@field public lines_in_def table
+---@field public commit_kind string
+---@field public lines_after_def table
+---@field public afters table
 ---@field public Commit fun():LplusFactoryData @notnull
 local class = Lplus.Class("LplusFactoryData")
 do
@@ -79,6 +83,18 @@ do
 
     ---@type table
     def.field("table").methods = emptyFun
+
+    ---@type table
+    def.field("table").lines_in_def = emptyFun
+
+    ---@type string
+    def.field("string").commit_kind = "return"
+
+    ---@type table
+    def.field("table").lines_after_def = emptyFun
+
+    ---@type table
+    def.field("table").afters = emptyFun
 
     class.Commit()
 end
