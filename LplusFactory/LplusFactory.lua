@@ -30,8 +30,9 @@ local LplusFactoryData = _G.LplusFactoryData or require "LplusFactory.LplusFacto
 ---@field public newStatic fun(self:LplusFactory.LplusFactory):LplusFactory.LplusFactory
 ---@field public newFinal fun(self:LplusFactory.LplusFactory):LplusFactory.LplusFactory
 ---@field public virtual fun(self:LplusFactory.LplusFactory, name:string, params:string, returns:string, param_names:string, function_body:string, upvalues_name:string, upvalues_value:string):LplusFactory.LplusFactory
----@field public ViewFuncions fun(self:LplusFactory.LplusFactory, functions:table):LplusFactory.LplusFactory
+---@field public ViewFunctions fun(self:LplusFactory.LplusFactory, functions:table):LplusFactory.LplusFactory
 ---@field public sample fun(self:LplusFactory.LplusFactory)
+---@field public sampleClass fun(self:LplusFactory.LplusFactory, name:string, path:any)
 ---@field public samplePanel fun(self:LplusFactory.LplusFactory, name:string, path:string, functions:string)
 ---@field public sampleView fun(self:LplusFactory.LplusFactory, name:string, functions:string)
 ---@field public sampleBadge fun(self:LplusFactory.LplusFactory, name:string, notification_name:string)
@@ -418,7 +419,7 @@ do
     ---@param self LplusFactory.LplusFactory
     ---@param functions table
     ---@return LplusFactory.LplusFactory
-    def.method("table", "=>", LplusFactory).ViewFuncions = function(self, functions)
+    def.method("table", "=>", LplusFactory).ViewFunctions = function(self, functions)
         local strs
         if table.FindKeyByValue(functions, 'onClickObj') then
             strs = {
@@ -458,6 +459,17 @@ do
         class:commit(LUA_PATH.."\\GUI\\TestCt1.lua")
     end
 
+
+    ---@param self LplusFactory.LplusFactory
+    ---@param name string
+    ---@param path any
+    ---@return void
+    def.method("string", "dynamic").sampleClass = function(self, name, path)
+        local class = self:createOne(name, "")
+        class:prefix(" 测试", AUTHOR_NAME)
+        class:commit(path or (LUA_PATH..("\\%s.lua"):format(name)))
+    end
+
     ---@param self LplusFactory.LplusFactory
     ---@param name string
     ---@param path string
@@ -490,7 +502,7 @@ do
             "--ECGUITools.setVisible",
         }
         class:override("OnCreate", "", "", "", make_function_body(strs), "", "")
-        self:ViewFuncions(functions)
+        self:ViewFunctions(functions)
         local pathName = (LUA_PATH.."\\GUI\\%s.lua"):format(className)
         class:commit(pathName)
     end
@@ -519,7 +531,7 @@ do
         }
         class:override("OnCreate", "", "", "", make_function_body(strs), "", "")
         functions = string.split(functions, ',')
-        self:ViewFuncions(functions)
+        self:ViewFunctions(functions)
         local pathName = (LUA_PATH.."\\GUI\\%s.lua"):format(className)
         class:commit(pathName)
     end
