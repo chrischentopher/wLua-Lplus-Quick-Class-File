@@ -1,0 +1,6 @@
+createOne|ReturnPlayerManager|''
+prefix|玩家回流|chentao
+prefix_line|--玩家回流管理类
+ForwardDeclare|''|ECGame
+InstanceStatic
+commit|D:\\Projects\\Trunk\\Azure\\Output\\Lua\\ReturnPlayer\\ReturnPlayerManager.lua
