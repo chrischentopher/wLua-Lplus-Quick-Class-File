@@ -523,8 +523,7 @@ do
             class:InstanceStatic()
         end
         local strs = {
-            "--注册子控件对象",
-            "--self:RegisterSubView()",
+            "--对象构造初始化",
         }
         class:constructor("init", "", "", "", make_function_body(strs), "", "")
         strs = {
