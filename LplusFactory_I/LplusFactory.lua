@@ -505,21 +505,17 @@ do
         local className = 'ECPanel'..name
         local class = self:createOne(className, "ECPanelBase")
         local withCleanerHelp = params.withCleanerHelp
-        local strs
         functions = string.split(functions, ',')
+
         if withCleanerHelp then
             class:withCleanerHelp()
-            strs = {
-                "--销毁监听",
-                "self:disposeCleaner()",
-            }
-            class:override("OnDestroy", "", "", "", make_function_body(strs), "", "")
             local key = table.FindKeyByValue(functions, 'OnDestroy')
             if key then
                 table.remove(functions, key)
             end
             self:withAddHandlerAutoDelOnDestroy()
         end
+
         class:prefix("界面：", AUTHOR_NAME)
         class:require("GUI", "ECPanelBase")
         class:require("GUI", "ECGUITools")
@@ -533,26 +529,39 @@ do
         class:constructor("init", "", "", "", make_function_body(strs), "", "")
         strs = {
             "if show then",
-            "   if self.m_panel == nil then",
-            "       --返回ECResPath.lua中的路径:",
-            ("       self:CreatePanel(RESPATH.%s)--返回ECResPath.lua中的路径"):format(resPath),
-            "   else",
-            "       self:Refresh()",
-            "   end",
+            "\tif self.m_panel == nil then",
+            "\t\t--返回ECResPath.lua中的路径:",
+            ("\t\tself:CreatePanel(RESPATH.%s)--返回ECResPath.lua中的路径"):format(resPath),
+            "\telse",
+            "\t\tself:Refresh()",
+            "\tend",
             "else",
-            "    self:DestroyPanel()",
+            "\tself:DestroyPanel()",
             "end",
         }
         class:methods("ShowPanel", "boolean", "", "show", make_function_body(strs), "", "")
         class:methods("Refresh", "", "", "", "", "", "")
+
         strs = {
-            "--界面创建，事件监听，设置ui元件:",
-            "--self:AddHandlerAutoDelOnDestroy",
+            "--界面创建,设置ui元件:",
             "--ECGUITools.setVisible",
         }
+        if withCleanerHelp then
+            strs[#strs+ 1] = "--界面创建,设置监听"
+            strs[#strs+ 1] = "--self:AddHandlerAutoDelOnDestroy"
+        end
         class:override("OnCreate", "", "", "", make_function_body(strs), "", "")
 
         self:ViewFunctions(functions)
+
+        if withCleanerHelp then
+            strs = {
+                "--销毁监听",
+                "self:disposeCleaner()",
+            }
+            class:override("OnDestroy", "", "", "", make_function_body(strs), "", "")
+        end
+
         local pathName
         if params.path then
             pathName = (LUA_PATH.."\\%s\\%s.lua"):format(params.path, className)
